@@ -1,16 +1,14 @@
-export default function getContent(opt) {
-  return `
-import React from 'react';
-import { Form, Input, Select, Radio } from 'antd';
-import { FormWrapper, FiltersFormType } from 'search-page';
-import { RangePicker } from 'from-antd-datepicker';
-import { StockPicker } from '@/components/Picker';
-import { useUser } from '@/hooks/useUser';
-import OrgPicker, { OrgPickerType } from '@/components/OrgPicker';
+import React from "react";
+import { Form, Input, Select, Radio } from "antd";
+import { FormWrapper, FiltersFormType } from "search-page";
+import { RangePicker } from "from-antd-datepicker";
+import { StockPicker } from "@/components/Picker";
+import { useUser } from "@/hooks/useUser";
+import OrgPicker, { OrgPickerType } from "@/components/OrgPicker";
 
 const { Option } = Select;
 
-const FilterForm: FiltersFormType = props => {
+const FilterForm: FiltersFormType = (props) => {
   const {
     form: { getFieldDecorator },
   } = props;
@@ -20,11 +18,14 @@ const FilterForm: FiltersFormType = props => {
   return (
     <FormWrapper {...props} simpleMode={{ rows: 1 }} filtersDefault={[]}>
       <Form.Item label="成交时间">
-        {getFieldDecorator('purchaseTime', {})(<RangePicker format="YYYY-MM-DD" />)}
+        {getFieldDecorator(
+          "purchaseTime",
+          {}
+        )(<RangePicker format="YYYY-MM-DD" />)}
       </Form.Item>
       <Form.Item label="购买方式">
         {getFieldDecorator(
-          'purchaseMethod',
+          "purchaseMethod",
           {}
         )(
           <Select allowClear>
@@ -36,7 +37,7 @@ const FilterForm: FiltersFormType = props => {
       </Form.Item>
       <Form.Item label="状态">
         {getFieldDecorator(
-          'state',
+          "state",
           {}
         )(
           <Select placeholder="请选择状态" allowClear>
@@ -48,27 +49,34 @@ const FilterForm: FiltersFormType = props => {
       </Form.Item>
       <Form.Item label="预算单位">
         {getFieldDecorator(
-          'budgetOrgId',
+          "budgetOrgId",
           {}
         )(
           // <StockPicker upId={orgId} />
-          <OrgPicker orgType={OrgPickerType.TYPE_STOCK} upId={orgId} showIncludeLower />
+          <OrgPicker
+            orgType={OrgPickerType.TYPE_STOCK}
+            upId={orgId}
+            showIncludeLower
+          />
         )}
       </Form.Item>
       <Form.Item label="供应商/成交人">
-        {getFieldDecorator('purchaseSupplier', {})(<Input allowClear />)}
+        {getFieldDecorator("purchaseSupplier", {})(<Input allowClear />)}
       </Form.Item>
       <Form.Item label="采购地区">
-        {getFieldDecorator('provinceName', {})(<Input allowClear />)}
+        {getFieldDecorator("provinceName", {})(<Input allowClear />)}
       </Form.Item>
       <Form.Item label="登记时间">
-        {getFieldDecorator('createTime', {})(<RangePicker format="YYYY-MM-DD" />)}
+        {getFieldDecorator(
+          "createTime",
+          {}
+        )(<RangePicker format="YYYY-MM-DD" />)}
       </Form.Item>
-      <Form.Item label="备注">{getFieldDecorator('remarks', {})(<Input allowClear />)}</Form.Item>
+      <Form.Item label="备注">
+        {getFieldDecorator("remarks", {})(<Input allowClear />)}
+      </Form.Item>
     </FormWrapper>
   );
 };
 
 export default FilterForm;
-  `;
-}

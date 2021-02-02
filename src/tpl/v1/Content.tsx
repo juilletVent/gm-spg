@@ -1,31 +1,29 @@
-export default function getContent(opt) {
-  return `
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Table, Tag, Form, Button, Icon, Popconfirm } from 'antd';
-import { ContentProps } from 'search-page';
-import { History } from 'history';
-import { isNaN, isNil, clone } from 'lodash';
-import styled from 'styled-components';
-import { currency, timeStampFormat, getValue, getSearch } from '@gmsoft/tools';
-import { BtnGroup } from '@/components/Layout/BtnGroup';
-import { AutoText } from '@/components';
-import notInIframe from '@/utils/judgeIframe';
-import OperaterBtns from '@/components/OperaterBtns';
-import { unix2Date } from '@/utils/commonUtils';
-import renderUtils from './renderConf';
-import { RecordItem } from './RecordItem';
-import { pathConf } from '../Home/routeRegisterCenter';
-import CancelDrawer from './CancelDrawer';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { Table, Tag, Form, Button, Icon, Popconfirm } from "antd";
+import { ContentProps } from "search-page";
+import { History } from "history";
+import { isNaN, isNil, clone } from "lodash";
+import styled from "styled-components";
+import { currency, timeStampFormat, getValue, getSearch } from "@gmsoft/tools";
+import { BtnGroup } from "@/components/Layout/BtnGroup";
+import { AutoText } from "@/components";
+import notInIframe from "@/utils/judgeIframe";
+import OperaterBtns from "@/components/OperaterBtns";
+import { unix2Date } from "@/utils/commonUtils";
+import renderUtils from "./renderConf";
+import { RecordItem } from "./RecordItem";
+import { pathConf } from "../Home/routeRegisterCenter";
+import CancelDrawer from "./CancelDrawer";
 
 const { renderType, renderMethod, renderState } = renderUtils;
 const { Column } = Table;
-export const ExtraInfo = styled.div\`
+export const ExtraInfo = styled.div`
   float: right;
   line-height: 34px;
   padding: 0 5px;
   font-size: 14px;
   color: #e83f55;
-\`;
+`;
 
 function Content(props: ContentProps & { history: History<any> }) {
   const { data, forceUpdate, filters, history } = props;
@@ -36,20 +34,25 @@ function Content(props: ContentProps & { history: History<any> }) {
     if (notInIframe) {
       history.push(pathConf.ROUTE_PURCHASE_RECORD_INPUT);
     } else {
-      window.top.eventBus.emit('route.angular', 'poverty-alleviation.purchase-record-input');
+      window.top.eventBus.emit(
+        "route.angular",
+        "poverty-alleviation.purchase-record-input"
+      );
     }
   }, [history]);
 
   const onExport = useCallback(() => {
     const filter = clone(filters);
     // 处理时间组件的key与接口不一致以及结构不一致问题
-    filter.purchaseTimeStart = getValue(filter, 'purchaseTime.start');
-    filter.purchaseTimeEnd = getValue(filter, 'purchaseTime.end');
-    filter.createTimeStart = getValue(filter, 'createTime.end');
-    filter.createTimeEnd = getValue(filter, 'createTime.end');
+    filter.purchaseTimeStart = getValue(filter, "purchaseTime.start");
+    filter.purchaseTimeEnd = getValue(filter, "purchaseTime.end");
+    filter.createTimeStart = getValue(filter, "createTime.end");
+    filter.createTimeEnd = getValue(filter, "createTime.end");
     delete filter.purchaseTime;
     delete filter.createTime;
-    window.open(\`\${process.env.REACT_APP_YW_GATEWAY}/demand/help/excel\${getSearch(filter)}\`);
+    window.open(
+      `\${process.env.REACT_APP_YW_GATEWAY}/demand/help/excel\${getSearch(filter)}`
+    );
   }, [filters]);
 
   const switchVisible = useCallback(
@@ -71,7 +74,9 @@ function Content(props: ContentProps & { history: History<any> }) {
           <Icon type="export" />
           导出
         </Button>
-        <ExtraInfo>总金额：{isNaN(+data.statistics) ? '--' : currency(+data.statistics)}</ExtraInfo>
+        <ExtraInfo>
+          总金额：{isNaN(+data.statistics) ? "--" : currency(+data.statistics)}
+        </ExtraInfo>
       </BtnGroup>
       <Table dataSource={data.data} rowKey="id" pagination={false}>
         <Column
@@ -116,7 +121,11 @@ function Content(props: ContentProps & { history: History<any> }) {
           key="amount"
           render={(text, record: RecordItem) => (
             <>
-              <p>{isNaN(+record.goodsMoney) ? '--' : currency(+record.goodsMoney)}</p>
+              <p>
+                {isNaN(+record.goodsMoney)
+                  ? "--"
+                  : currency(+record.goodsMoney)}
+              </p>
               <div>{renderMethod(record)}</div>
             </>
           )}
@@ -128,7 +137,9 @@ function Content(props: ContentProps & { history: History<any> }) {
           render={(text, record: RecordItem) => (
             <>
               <AutoText>{unix2Date(record.purchaseTime)}</AutoText>
-              <AutoText zeroMarginBottom>{unix2Date(record.createTime)}</AutoText>
+              <AutoText zeroMarginBottom>
+                {unix2Date(record.createTime)}
+              </AutoText>
             </>
           )}
         />
@@ -157,7 +168,9 @@ function Content(props: ContentProps & { history: History<any> }) {
             <OperaterBtns>
               <Button
                 onClick={() =>
-                  history.push(\`\${pathConf.ROUTE_PURCHASE_RECORD_VIEW}?bizId=\${record.goodsCode}\`)
+                  history.push(
+                    `\${pathConf.ROUTE_PURCHASE_RECORD_VIEW}?bizId=\${record.goodsCode}`
+                  )
                 }
                 type="link"
                 size="small"
@@ -165,7 +178,11 @@ function Content(props: ContentProps & { history: History<any> }) {
                 查看
               </Button>
               {record.purchaseMethod !== 3 && +record.state === 0 && (
-                <Button onClick={() => switchVisible(record)} type="link" size="small">
+                <Button
+                  onClick={() => switchVisible(record)}
+                  type="link"
+                  size="small"
+                >
                   作废
                 </Button>
               )}
@@ -184,6 +201,3 @@ function Content(props: ContentProps & { history: History<any> }) {
 }
 
 export default Content;
-
-`;
-}
