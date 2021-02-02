@@ -1,5 +1,6 @@
 import path from "path";
 import fs from "fs-extra";
+import color from "colors-console";
 import { TplType } from "@/types/TpleType.enum";
 import getTpl from "./tplCenter";
 
@@ -10,6 +11,7 @@ import getTpl from "./tplCenter";
  */
 function writeTpl(fileName: string | TplType, content: string) {
   const filePath = path.resolve(process.cwd(), `${fileName}.tsx`);
+  console.log("Write file -> ", color("cyan", filePath));
   fs.writeFileSync(filePath, content);
 }
 
@@ -32,4 +34,6 @@ export default async function writeDefaultTpl(
   writeTpl(TplType.TYPE_FILTER_FORM, filterContent);
   writeTpl(TplType.TYPE_CONTENT, Content);
   writeTpl(moduleName, entranceContent);
+
+  console.log("Write file -> ", color("green", "文件写出完成！"));
 }

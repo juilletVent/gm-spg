@@ -16,7 +16,6 @@ export default function getTpl(tplVersion: string, tplType: TplType): string {
     __dirname,
     `./tpl/${tplVersion}/${tplType}.tsx`
   );
-  console.log("targetPath", targetPath);
 
   // 文件不存在，检查到底是版本号错误，还是模板类型错误
   if (!fs.existsSync(targetPath)) {
@@ -28,7 +27,6 @@ export default function getTpl(tplVersion: string, tplType: TplType): string {
     }
 
     const allChildFolder = getAllChildFolder(path.resolve(__dirname, "./tpl"));
-    console.log("allChildFolder", allChildFolder);
 
     if (!allChildFolder.includes(tplVersion)) {
       throw new Error(

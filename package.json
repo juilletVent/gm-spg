@@ -5,6 +5,7 @@
     "build": "rollup -c",
     "test": "ts-node node_modules/jasmine/bin/jasmine"
   },
+  "type": "module",
   "name": "gm-spg",
   "version": "1.0.1",
   "description": "自动生成SearchPage调用",

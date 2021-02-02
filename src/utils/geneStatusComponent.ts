@@ -3,5 +3,5 @@ import color from "colors-console";
 // const color = require('colors-console');
 
 export function geneStatusComponent() {
-  console.log("颜色是：" + color("green", "红色"));
+  console.log(color("green", "The build process has successfully executed."));
 }
