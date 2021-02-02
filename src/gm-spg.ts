@@ -1,5 +1,7 @@
 import { program } from "commander";
-import "./command/cli-create";
+import "./command/cli-init";
+import "./command/cli-def";
+import "./command/cli-gen";
 // import inquirer from "inquirer";
 
 program

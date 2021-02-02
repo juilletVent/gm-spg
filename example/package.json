@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/gm-spg init",
+    "test": "./node_modules/.bin/gm-spg def Manage",
     "test-v": "./node_modules/.bin/gm-spg -v"
   },
   "devDependencies": {

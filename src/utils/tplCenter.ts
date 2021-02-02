@@ -1,15 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import { getAllChildFolder } from "@/utils/fsUtils";
-
-export enum TplType {
-  /** SearchPage过滤器 */
-  TYPE_FILTER_FORM = "FilterForm",
-  /** SearchPage内容部分 */
-  TYPE_CONTENT = "Content",
-  /** SearchPage入口 */
-  TYPE_ENTRANCE = "Entrance",
-}
+import { TplType } from "@/types/TpleType.enum";
 
 /** 可选的模板类型 */
 const AllEnums = ["FilterForm", "Content", "Entrance"];
@@ -20,9 +12,14 @@ const AllEnums = ["FilterForm", "Content", "Entrance"];
  * @param {string} tplType 模板类型
  */
 export default function getTpl(tplVersion: string, tplType: TplType): string {
-  const targetPath = `./${tplVersion}/${tplType}.ts`;
+  const targetPath = path.resolve(
+    __dirname,
+    `./tpl/${tplVersion}/${tplType}.tsx`
+  );
+  console.log("targetPath", targetPath);
+
   // 文件不存在，检查到底是版本号错误，还是模板类型错误
-  if (!fs.existsSync(path.resolve(__dirname, targetPath))) {
+  if (!fs.existsSync(targetPath)) {
     // 如果模板类型不在可用列表内，则认定入参模板类型有误
     if (!AllEnums.includes(tplType)) {
       throw new Error(
@@ -30,7 +27,9 @@ export default function getTpl(tplVersion: string, tplType: TplType): string {
       );
     }
 
-    const allChildFolder = getAllChildFolder(__dirname);
+    const allChildFolder = getAllChildFolder(path.resolve(__dirname, "./tpl"));
+    console.log("allChildFolder", allChildFolder);
+
     if (!allChildFolder.includes(tplVersion)) {
       throw new Error(
         `调用getTpl获取模板内容时发生错误：未找到参数tplVersion对应的模板版本，可用的版本号如下：${JSON.stringify(
@@ -45,6 +44,5 @@ export default function getTpl(tplVersion: string, tplType: TplType): string {
   }
 
   // 根据传入的版本以及类型取得相应的内容
-  const getContent = require(`./${tplVersion}/${tplType}.ts`);
-  return getContent.default();
+  return fs.readFileSync(targetPath, { encoding: "utf-8" });
 }

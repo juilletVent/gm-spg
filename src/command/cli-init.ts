@@ -9,7 +9,4 @@ program
       // do something...request doc data and replace to template.
       return;
     }
-    console.log("run");
-
-    writeDefaultTpl(tplVersion);
   });

@@ -1,80 +1,46 @@
-import React from "react";
-import { Form, Input, Select, Radio } from "antd";
-import { FormWrapper, FiltersFormType } from "search-page";
-import { RangePicker } from "from-antd-datepicker";
-import { StockPicker } from "@/components/Picker";
-import { useUser } from "@/hooks/useUser";
-import OrgPicker, { OrgPickerType } from "@/components/OrgPicker";
+import React from 'react';
+import { Input, Select } from 'antd';
+import { FiltersFormType, FormWrapper } from 'search-page';
+import { RangePicker } from 'datepicker-of-antd';
+import GmsoftComponent from '@/components/GmsoftComponent';
 
+export interface Props {}
+
+const { FormItem } = FormWrapper;
 const { Option } = Select;
 
-const FilterForm: FiltersFormType = (props) => {
-  const {
-    form: { getFieldDecorator },
-  } = props;
-
-  const { orgId } = useUser();
-
+const FilterForm: FiltersFormType = props => {
+  const { form } = props;
+  const { getFieldDecorator } = form;
   return (
-    <FormWrapper {...props} simpleMode={{ rows: 1 }} filtersDefault={[]}>
-      <Form.Item label="成交时间">
-        {getFieldDecorator(
-          "purchaseTime",
-          {}
-        )(<RangePicker format="YYYY-MM-DD" />)}
-      </Form.Item>
-      <Form.Item label="购买方式">
-        {getFieldDecorator(
-          "purchaseMethod",
-          {}
-        )(
-          <Select allowClear>
-            <Option value="1">线下购买</Option>
-            <Option value="2">线上平台购买</Option>
-            <Option value="3">832平台购买</Option>
+    <FormWrapper {...props} simpleMode={{ count: 3 }}>
+      <FormItem label="输入类型">
+        {getFieldDecorator('inputType')(<Input placeholder="请输入" allowClear />)}
+      </FormItem>
+      <FormItem label="选择类型">
+        {getFieldDecorator('selectType')(
+          <Select placeholder="请选择" allowClear>
+            <Option value="1">Option-1</Option>
+            <Option value="2">Option-2</Option>
           </Select>
         )}
-      </Form.Item>
-      <Form.Item label="状态">
-        {getFieldDecorator(
-          "state",
-          {}
-        )(
-          <Select placeholder="请选择状态" allowClear>
-            <Option value={0}>正常</Option>
-            <Option value={1}>退回</Option>
-            <Option value={2}>作废</Option>
-          </Select>
-        )}
-      </Form.Item>
-      <Form.Item label="预算单位">
-        {getFieldDecorator(
-          "budgetOrgId",
-          {}
-        )(
-          // <StockPicker upId={orgId} />
-          <OrgPicker
-            orgType={OrgPickerType.TYPE_STOCK}
-            upId={orgId}
-            showIncludeLower
+      </FormItem>
+      <FormItem label="远程组件">
+        {getFieldDecorator('effectAreaId')(
+          <GmsoftComponent
+            componentName="AreaSelect"
+            placeholder="请输入区域"
+            hideVirtualNodes
+            useDefaultFilterOption
+            allowClear
           />
         )}
-      </Form.Item>
-      <Form.Item label="供应商/成交人">
-        {getFieldDecorator("purchaseSupplier", {})(<Input allowClear />)}
-      </Form.Item>
-      <Form.Item label="采购地区">
-        {getFieldDecorator("provinceName", {})(<Input allowClear />)}
-      </Form.Item>
-      <Form.Item label="登记时间">
-        {getFieldDecorator(
-          "createTime",
-          {}
-        )(<RangePicker format="YYYY-MM-DD" />)}
-      </Form.Item>
-      <Form.Item label="备注">
-        {getFieldDecorator("remarks", {})(<Input allowClear />)}
-      </Form.Item>
+      </FormItem>
+      <FormItem label="时间组件">
+        {getFieldDecorator('signupTime')(
+          <RangePicker placeholder={['请选择开始时间', '请选择结束时间']} />
+        )}
+      </FormItem>
     </FormWrapper>
   );
 };
