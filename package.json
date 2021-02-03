@@ -3,39 +3,44 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "test": "ts-node node_modules/jasmine/bin/jasmine"
+    "test": "jest --watch"
   },
-  "type": "module",
   "name": "gm-spg",
   "version": "1.0.1",
   "description": "自动生成SearchPage调用",
-  "main": "gm-spg.js",
+  "main": "./dist/gm-spg.js",
   "author": "JulyWind",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "colors-console": "^1.0.3",
     "commander": "^7.0.0",
+    "copy-dir": "^1.3.0",
     "fs-extra": "^9.1.0",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@babel/register": "^7.12.10",
+    "@babel/core": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "@babel/preset-typescript": "^7.12.13",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.1.1",
     "@types/commander": "^2.12.2",
     "@types/fs-extra": "^9.0.6",
     "@types/inquirer": "^7.3.1",
-    "@types/jasmine": "^3.6.3",
+    "@types/jest": "^26.0.20",
+    "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.22",
-    "jasmine": "^3.6.4",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "jest": "^26.6.3",
     "rollup": "^2.38.2",
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.29.0",
+    "ts-jest": "^26.5.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   }

@@ -10,25 +10,26 @@ export default {
   output: {
     dir: "dist",
     format: "cjs",
-    banner: "#!/usr/bin/env node"
+    banner: "#!/usr/bin/env node",
   },
+  watch: "src/**",
   plugins: [
     external(),
     typescript({
       rollupCommonJSResolveHack: true,
-      clean: true
+      clean: true,
     }),
     ,
     resolve(),
     commonjs(),
     clear({
-      targets: ["dist"]
+      targets: ["dist"],
     }),
     copy({
       targets: [
-        { src: "src/tpl", dest: "dist" },
-        { src: "src/components", dest: "dist" }
-      ]
-    })
-  ]
+        { src: "src/utils/tpl", dest: "dist" },
+        { src: "src/components", dest: "dist" },
+      ],
+    }),
+  ],
 };

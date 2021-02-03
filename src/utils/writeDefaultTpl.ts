@@ -9,8 +9,18 @@ import getTpl from "./tplCenter";
  * @param tplType
  * @param content
  */
-function writeTpl(fileName: string | TplType, content: string) {
-  const filePath = path.resolve(process.cwd(), `${fileName}.tsx`);
+function writeTpl(
+  dirName: string,
+  fileName: string | TplType,
+  content: string
+) {
+  const currentPwd = process.cwd();
+  const targetDir = path.resolve(currentPwd, dirName);
+  // 判断当前存不存在模块文件夹，如果不存在则创建
+  if (!fs.existsSync(targetDir)) {
+    fs.mkdirSync(targetDir);
+  }
+  const filePath = path.resolve(targetDir, `${fileName}.tsx`);
   console.log("Write file -> ", color("cyan", filePath));
   fs.writeFileSync(filePath, content);
 }
@@ -29,11 +39,12 @@ export default async function writeDefaultTpl(
   // 写出Content内容
   const Content = getTpl(tplVersion, TplType.TYPE_CONTENT);
   // 写出Entrancen内容
-  const entranceContent = getTpl(tplVersion, TplType.TYPE_ENTRANCE);
+  let entranceContent = getTpl(tplVersion, TplType.TYPE_ENTRANCE);
+  entranceContent = entranceContent.replace(/###moduleName###/g, moduleName);
 
-  writeTpl(TplType.TYPE_FILTER_FORM, filterContent);
-  writeTpl(TplType.TYPE_CONTENT, Content);
-  writeTpl(moduleName, entranceContent);
+  writeTpl(moduleName, TplType.TYPE_FILTER_FORM, filterContent);
+  writeTpl(moduleName, TplType.TYPE_CONTENT, Content);
+  writeTpl(moduleName, moduleName, entranceContent);
 
   console.log("Write file -> ", color("green", "文件写出完成！"));
 }
