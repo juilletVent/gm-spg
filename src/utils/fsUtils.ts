@@ -24,7 +24,7 @@ export function getProjectRoot(subpath: string): string | void {
   if (currentDirFileList.includes("package.json")) {
     return subpath;
   }
-  // 如果向上的路径与当前路径一致，则表明已经抵达当前盘符根路径（windows环境经过测试，MacOS环境还未测试）
+  // 如果向上的路径与当前路径一致，则表明已经抵达当前盘符根路径
   if (subpath === path.resolve(subpath, "../")) {
     return;
   }

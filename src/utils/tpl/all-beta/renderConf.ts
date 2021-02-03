@@ -21,7 +21,7 @@ const typeMapper: StatusConf[] = [
 
 const renderFunctions = {
   // 此处泛型请传入列表中行数据的数据模型
-  renderSupplyModel: generateRenderFn<any>({
+  renderStatus: generateRenderFn<any>({
     // 上面的配置在此处应用
     statusMappers: typeMapper,
     // 使用列表项的哪一个字段进行状态映射，定义了此项后，导出的工具函数在使用时，可直接传入数据对象，样例：renderSupplyModel(record)

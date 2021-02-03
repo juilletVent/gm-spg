@@ -3,6 +3,7 @@ import fs from "fs-extra";
 import color from "colors-console";
 import { TplType } from "@/types/TpleType.enum";
 import getTpl from "./tplCenter";
+import { myErrorLog } from "./loger";
 
 /**
  * 对应模板类型生成文件
@@ -20,7 +21,8 @@ function writeTpl(
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir);
   }
-  const filePath = path.resolve(targetDir, `${fileName}.tsx`);
+  const extName = fileName === TplType.TYPE_RENDER_CONF ? ".ts" : ".tsx";
+  const filePath = path.resolve(targetDir, `${fileName}${extName}`);
   console.log("Write file -> ", color("cyan", filePath));
   fs.writeFileSync(filePath, content);
 }
@@ -34,17 +36,27 @@ export default async function writeDefaultTpl(
   moduleName: string,
   tplVersion: string
 ) {
-  // 写出FilterForm内容
-  const filterContent = getTpl(tplVersion, TplType.TYPE_FILTER_FORM);
-  // 写出Content内容
-  const Content = getTpl(tplVersion, TplType.TYPE_CONTENT);
-  // 写出Entrancen内容
-  let entranceContent = getTpl(tplVersion, TplType.TYPE_ENTRANCE);
-  entranceContent = entranceContent.replace(/###moduleName###/g, moduleName);
+  try {
+    // 写出FilterForm内容
+    const filterContent = getTpl(tplVersion, TplType.TYPE_FILTER_FORM);
+    // 写出Content内容
+    const Content = getTpl(tplVersion, TplType.TYPE_CONTENT);
+    // 写出Entrancen内容
+    let entranceContent = getTpl(tplVersion, TplType.TYPE_ENTRANCE);
+    entranceContent = entranceContent.replace(/###moduleName###/g, moduleName);
 
-  writeTpl(moduleName, TplType.TYPE_FILTER_FORM, filterContent);
-  writeTpl(moduleName, TplType.TYPE_CONTENT, Content);
-  writeTpl(moduleName, moduleName, entranceContent);
+    writeTpl(moduleName, TplType.TYPE_FILTER_FORM, filterContent);
+    writeTpl(moduleName, TplType.TYPE_CONTENT, Content);
+    writeTpl(moduleName, moduleName, entranceContent);
 
-  console.log("Write file -> ", color("green", "文件写出完成！"));
+    if (tplVersion === "all-beta") {
+      // 复制渲染配置文件
+      const renderConfContent = getTpl(tplVersion, TplType.TYPE_RENDER_CONF);
+      writeTpl(moduleName, TplType.TYPE_RENDER_CONF, renderConfContent);
+    }
+
+    console.log("Write file -> ", color("green", "文件写出完成！"));
+  } catch (error) {
+    myErrorLog(error.message);
+  }
 }

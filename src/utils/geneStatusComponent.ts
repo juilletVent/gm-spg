@@ -38,10 +38,8 @@ export function geneStatusComponent() {
 
   if (fs.existsSync(path.resolve(componentsDir, "./Status"))) {
     myInfoLog(`当前项目components内已有Status组件文件夹。
-
-      1. 您是否已经生成了Status组件
-      
-      2. 尝试变更Status文件夹名称后重试`);
+1. 您是否已经生成了Status组件
+2. 尝试变更Status文件夹名称后重试`);
     return;
   }
 
