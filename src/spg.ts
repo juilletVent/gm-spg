@@ -4,9 +4,11 @@ import "./command/cli-def";
 import "./command/cli-gen";
 // import inquirer from "inquirer";
 
-program
-  .version(require("../package").version, "-v,--version", "查看当前CLI版本")
-  .alias("gmspg");
+program.version(
+  require("../package").version,
+  "-v,--version",
+  "查看当前CLI版本"
+);
 
 // .option("-i,--init", "初始化SearchPage模板代码")
 // .option("-l,--list <valus>", "分割字符串", strToArr)

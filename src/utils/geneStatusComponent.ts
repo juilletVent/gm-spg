@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs-extra";
 import copyDir from "copy-dir";
+import color from "colors-console";
 import { getProjectRoot } from "./fsUtils";
 import { myErrorLog, myInfoLog } from "./loger";
 
@@ -12,7 +13,6 @@ export function geneStatusComponent() {
   //        2、如果存在，则中端操作，并给出提示
   //    2、不存在components文件，则创建components以及子文件夹，并给出提示，然后复制文件
   // 3、输出执行成功
-  // console.log(color("green", "The build process has successfully executed."));
 
   const projectRoot = getProjectRoot(process.cwd());
   if (!projectRoot) {
@@ -23,6 +23,7 @@ export function geneStatusComponent() {
   }
 
   const componentsDir = path.join(projectRoot, "./src/components");
+  const statusDir = path.resolve(componentsDir, "./Status");
   let hasComponentDir = (() => {
     try {
       return fs.lstatSync(componentsDir).isDirectory();
@@ -36,23 +37,27 @@ export function geneStatusComponent() {
     fs.ensureDirSync(componentsDir, 0o777);
   }
 
-  if (fs.existsSync(path.resolve(componentsDir, "./Status"))) {
+  if (fs.existsSync(statusDir)) {
     myInfoLog(`当前项目components内已有Status组件文件夹。
 1. 您是否已经生成了Status组件
 2. 尝试变更Status文件夹名称后重试`);
     return;
   }
+  // 创建Status组件目录
+  fs.ensureDirSync(statusDir);
 
   // 复制Status文件夹到目标文件夹下
+  console.log(`Copy file -> ${color("blue", statusDir)}`);
+
   copyDir(
     path.resolve(__dirname, "./components/Status"),
-    componentsDir,
+    statusDir,
     {
       cover: false,
     },
     (err) => {
       if (!err) {
-        myInfoLog("Status组件写入完成！");
+        console.log(`Copy file -> ${color("green", "Status组件写入完成！")}`);
         return;
       }
       myErrorLog("Status组件写入失败！");
