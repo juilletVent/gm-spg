@@ -1,5 +1,5 @@
 import { TplType } from "@/types/TpleType.enum";
-import getTpl from "./tplCenter";
+import { getTpl } from "./tplCenter";
 
 const Constants = {
   NOEXIST_KEY: "not_exist",

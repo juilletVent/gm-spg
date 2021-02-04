@@ -12,8 +12,10 @@ test("获取指定目录的所有子目录", () => {
 });
 
 test("获取当前项目根路径", () => {
-  expect(getProjectRoot(__dirname)).toEqual(path.resolve(__dirname, "../../"));
+  expect(getProjectRoot(__dirname)).toEqual(
+    path.resolve(__dirname, "../../../")
+  );
   expect(getProjectRoot(path.resolve(__dirname, "../"))).toEqual(
-    path.resolve(__dirname, "../../")
+    path.resolve(__dirname, "../../../")
   );
 });

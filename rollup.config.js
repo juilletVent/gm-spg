@@ -1,6 +1,7 @@
 import resolve from "@rollup/plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
 import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import progress from "rollup-plugin-progress";
 import external from "rollup-plugin-peer-deps-external";
 import clear from "rollup-plugin-clear";
@@ -28,10 +29,11 @@ export default {
     }),
     copy({
       targets: [
-        { src: "src/utils/tpl", dest: "dist" },
+        { src: "src/utils/tplUtils/tpl", dest: "dist" },
         { src: "src/components", dest: "dist" },
       ],
     }),
+    json(),
     progress({
       // clearLine: false, // default: true
     }),

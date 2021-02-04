@@ -2,8 +2,8 @@ import path from "path";
 import fs from "fs-extra";
 import color from "colors-console";
 import { TplType } from "@/types/TpleType.enum";
-import getTpl from "./tplCenter";
-import { myErrorLog } from "./loger";
+import { myErrorLog } from "@/utils/logUtils";
+import { getTpl } from "@/utils/tplUtils";
 
 /**
  * 对应模板类型生成文件

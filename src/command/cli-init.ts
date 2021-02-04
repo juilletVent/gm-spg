@@ -1,5 +1,5 @@
 import { program } from "commander";
-import writeDefaultTpl from "@/utils/writeDefaultTpl";
+import writeDefaultTpl from "@/process/writeDefaultTpl";
 
 program
   .command("init [tplVersion] [docUri]")

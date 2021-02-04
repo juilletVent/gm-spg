@@ -1,21 +1,31 @@
 import { program } from "commander";
+import color from "colors-console";
 import { GenType } from "@/types/GenType.enum";
-import { geneStatusComponent } from "@/utils/geneStatusComponent";
-import { myErrorLog } from "@/utils/loger";
+import { geneStatusComponent } from "@/process/geneStatusComponent";
+import { myErrorLog } from "@/utils/logUtils";
+import { b } from "@/utils/logUtils";
+import geneApiModel from "@/process/geneApiModel";
 
 program
   .command("gen [type]")
-  .description("创建相关周边组件[实验性质]")
   .usage(
     `[type]\r\n
     type：可选值如下
-      - status [实验性质]生成渲染列表状态的周边组件，依赖项目结构
-    `
+      - ${b("interface")}   基于easymock配置文件，创建List类型接口的数据模型
+      - ${b("status")}      [实验性质]生成渲染列表状态的周边组件，依赖项目结构`
+  )
+  .description(
+    `创建接口：基于EasyMock配置文件创建接口数据模型。创建周边组件：为使用了渲染状态的列表创建渲染Status的支持${b(
+      "[实验性质]"
+    )}`
   )
   .action((type: string = GenType.TYPE_STATUS) => {
     switch (type) {
       case GenType.TYPE_STATUS:
         geneStatusComponent();
+        break;
+      case GenType.TYPE_API:
+        geneApiModel();
         break;
       default:
         myErrorLog(

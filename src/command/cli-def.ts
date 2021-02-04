@@ -1,5 +1,5 @@
 import { program } from "commander";
-import writeDefaultTpl from "@/utils/writeDefaultTpl";
+import writeDefaultTpl from "@/process/writeDefaultTpl";
 import projectConf from "@/conf/project.conf";
 import { TplType } from "@/types/TpleType.enum";
 

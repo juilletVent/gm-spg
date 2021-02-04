@@ -2,8 +2,8 @@ import path from "path";
 import fs from "fs-extra";
 import copyDir from "copy-dir";
 import color from "colors-console";
-import { getProjectRoot } from "./fsUtils";
-import { myErrorLog, myInfoLog } from "./loger";
+import { myErrorLog, myInfoLog } from "@/utils/logUtils";
+import { getProjectRoot } from "@/utils/tplUtils/fsUtils";
 
 export function geneStatusComponent() {
   // 1、确定项目根目录（向上递归寻找，直到盘符下为止）

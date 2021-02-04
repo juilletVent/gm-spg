@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
-import { getAllChildFolder } from "@/utils/fsUtils";
+import { getAllChildFolder } from "@/utils/tplUtils/fsUtils";
 import { TplType } from "@/types/TpleType.enum";
 
 /** 可选的模板类型 */
@@ -11,7 +11,7 @@ const AllEnums = ["FilterForm", "Content", "Entrance", "renderConf"];
  * @param {string} tplVersion 版本号
  * @param {string} tplType 模板类型
  */
-export default function getTpl(tplVersion: string, tplType: TplType): string {
+export function getTpl(tplVersion: string, tplType: TplType): string {
   const targetPath = path.resolve(
     __dirname,
     `./tpl/${tplVersion}/${tplType}.tsx`
