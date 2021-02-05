@@ -1,6 +1,5 @@
-import geneApiModel from "./geneApiModel";
+import { getEasyMockConf } from "./geneApiModel";
 
 test("Api生成测试组", () => {
-  // geneApiModel();
-  expect(1 + 1).toEqual(2);
+  expect(getEasyMockConf(true)).toEqual(undefined);
 });

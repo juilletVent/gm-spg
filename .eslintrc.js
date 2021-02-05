@@ -1,9 +1,12 @@
 module.exports = {
   root: true,
-  extends: ["eslint-config-prettify-base"],
-  settings: {
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"],
-    },
+  extends: ["airbnb-base", "eslint-config-prettify-base"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  rules: {
+    "no-shadow": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/no-unused-vars": ["error"],
   },
 };

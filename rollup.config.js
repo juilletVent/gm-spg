@@ -19,7 +19,10 @@ export default {
   },
   watch: "src/**",
   plugins: [
-    // terser(),
+    eslint({
+      fix: true,
+      throwOnError: true,
+    }),
     external(),
     typescript({
       rollupCommonJSResolveHack: true,
@@ -38,12 +41,9 @@ export default {
       ],
     }),
     json(),
+    // terser(),
     progress({
       // clearLine: false, // default: true
     }),
-    // eslint({
-    //   // fix: true,
-    //   throwOnError: true,
-    // }),
   ],
 };

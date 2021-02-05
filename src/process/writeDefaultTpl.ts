@@ -23,6 +23,7 @@ function writeTpl(
   }
   const extName = fileName === TplType.TYPE_RENDER_CONF ? ".ts" : ".tsx";
   const filePath = path.resolve(targetDir, `${fileName}${extName}`);
+  // eslint-disable-next-line no-console
   console.log("Write file -> ", color("cyan", filePath));
   fs.writeFileSync(filePath, content);
 }
@@ -54,7 +55,7 @@ export default async function writeDefaultTpl(
       const renderConfContent = getTpl(tplVersion, TplType.TYPE_RENDER_CONF);
       writeTpl(moduleName, TplType.TYPE_RENDER_CONF, renderConfContent);
     }
-
+    // eslint-disable-next-line no-console
     console.log("Write file -> ", color("green", "文件写出完成！"));
   } catch (error) {
     myErrorLog(error.message);

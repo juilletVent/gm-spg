@@ -1,9 +1,7 @@
 import { program } from "commander";
-import color from "colors-console";
 import { GenType } from "@/types/GenType.enum";
 import { geneStatusComponent } from "@/process/geneStatusComponent";
-import { myErrorLog } from "@/utils/logUtils";
-import { b } from "@/utils/logUtils";
+import { myErrorLog, b } from "@/utils/logUtils";
 import { geneApiModel } from "@/process/geneApiModel";
 
 program

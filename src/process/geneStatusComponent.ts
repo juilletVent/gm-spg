@@ -24,7 +24,7 @@ export function geneStatusComponent() {
 
   const componentsDir = path.join(projectRoot, "./src/components");
   const statusDir = path.resolve(componentsDir, "./Status");
-  let hasComponentDir = (() => {
+  const hasComponentDir = (() => {
     try {
       return fs.lstatSync(componentsDir).isDirectory();
     } catch (error) {
@@ -47,6 +47,7 @@ export function geneStatusComponent() {
   fs.ensureDirSync(statusDir);
 
   // 复制Status文件夹到目标文件夹下
+  // eslint-disable-next-line no-console
   console.log(`Copy file -> ${color("blue", statusDir)}`);
 
   copyDir(
@@ -57,6 +58,7 @@ export function geneStatusComponent() {
     },
     (err) => {
       if (!err) {
+        // eslint-disable-next-line no-console
         console.log(`Copy file -> ${color("green", "Status组件写入完成！")}`);
         return;
       }

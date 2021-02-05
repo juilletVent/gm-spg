@@ -12,13 +12,7 @@ program
     moduleName：模块名，如：ContractManage，将应用于入口文件的文件名\r\n
     tplVersion：模板文件的版本号，如需要指明生成的版本，则传入对应版本号，大部分情况下不需要指定`
   )
-  .action(function (moduleName, tplVersion) {
-    if (moduleName === undefined) {
-      moduleName = TplType.TYPE_ENTRANCE;
-    }
-    if (tplVersion === undefined) {
-      tplVersion = "latest";
-    }
+  .action(function (moduleName = TplType.TYPE_ENTRANCE, tplVersion = "latest") {
     writeDefaultTpl(
       moduleName,
       // 如果版本为latest，则获取配置中配置的最新的版本号
