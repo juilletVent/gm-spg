@@ -3,13 +3,11 @@ import "./command/cli-init";
 import "./command/cli-def";
 import "./command/cli-gen";
 // import inquirer from "inquirer";
-
 program.version(
   require("../package").version,
   "-v,--version",
   "查看当前CLI版本"
 );
-
 // .option("-i,--init", "初始化SearchPage模板代码")
 // .option("-l,--list <valus>", "分割字符串", strToArr)
 // .action((options, command) => {
@@ -18,7 +16,6 @@ program.version(
 //     console.log("init.");
 //   }
 // });
-
 // program
 //   .command("create <filename>")
 //   .description("创建一个文件")
@@ -27,5 +24,4 @@ program.version(
 //     console.log("res", res);
 //     const err = await execCreateFile(res, filename);
 //   });
-
 program.parse(process.argv);

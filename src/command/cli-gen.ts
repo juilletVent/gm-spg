@@ -4,12 +4,12 @@ import { GenType } from "@/types/GenType.enum";
 import { geneStatusComponent } from "@/process/geneStatusComponent";
 import { myErrorLog } from "@/utils/logUtils";
 import { b } from "@/utils/logUtils";
-import geneApiModel from "@/process/geneApiModel";
+import { geneApiModel } from "@/process/geneApiModel";
 
 program
   .command("gen [type]")
   .usage(
-    `[type]\r\n
+    `[type] 
     type：可选值如下
       - ${b("interface")}   基于easymock配置文件，创建List类型接口的数据模型
       - ${b("status")}      [实验性质]生成渲染列表状态的周边组件，依赖项目结构`

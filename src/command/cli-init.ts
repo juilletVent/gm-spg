@@ -1,12 +1,13 @@
 import { program } from "commander";
-import writeDefaultTpl from "@/process/writeDefaultTpl";
 
 program
   .command("init [tplVersion] [docUri]")
   .description("创建SearchPage基础模板")
-  .action((tplVersion: string = "v1", docUri?: string) => {
+  .action(function (tplVersion, docUri) {
+    if (tplVersion === void 0) {
+      tplVersion = "v1";
+    }
     if (docUri) {
       // do something...request doc data and replace to template.
-      return;
     }
   });
