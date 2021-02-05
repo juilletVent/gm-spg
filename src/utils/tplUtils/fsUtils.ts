@@ -18,7 +18,7 @@ export function getAllChildFolder(subpath: string) {
  * 寻找最近的项目根目录位置
  * @param subpath 查找的起始路径
  */
-export function getProjectRoot(subpath: string): string | void {
+export function getProjectRoot(subpath: string): string | undefined {
   // 递归向上查找
   const currentDirFileList = fs.readdirSync(subpath);
   if (currentDirFileList.includes("package.json")) {
@@ -26,7 +26,7 @@ export function getProjectRoot(subpath: string): string | void {
   }
   // 如果向上的路径与当前路径一致，则表明已经抵达当前盘符根路径
   if (subpath === path.resolve(subpath, "../")) {
-    return;
+    return undefined;
   }
   return getProjectRoot(path.resolve(subpath, "../"));
 }

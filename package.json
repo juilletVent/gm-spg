@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "test": "jest --watch -i"
+    "test": "jest --watch"
   },
   "name": "search-page-generator",
   "version": "1.0.0",

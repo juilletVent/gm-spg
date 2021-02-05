@@ -24,5 +24,6 @@ module.exports = {
     "<rootDir>/src/types/",
     "<rootDir>/src/components/",
     "<rootDir>/dist/",
+    "<rootDir>/.easy-mock.js",
   ],
 };
