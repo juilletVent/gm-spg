@@ -8,8 +8,8 @@ program
   .usage(
     `[type] 
     type：可选值如下
-      - ${b("interface")}   基于easymock配置文件，创建List类型接口的数据模型
-      - ${b("status")}      [实验性质]生成渲染列表状态的周边组件，依赖项目结构`
+      - ${b("api")}       基于easymock配置文件，创建List类型接口的数据模型
+      - ${b("status")}    [实验性质]生成渲染列表状态的周边组件，依赖项目结构`
   )
   .option("--cover", "是否才用强制覆盖的形式生成，请谨慎使用")
   .action(() => {

@@ -4,27 +4,26 @@
   // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+    // {
+    //   "type": "node",
+    //   "request": "launch",
+    //   "name": "启动程序",
+    //   "skipFiles": ["<node_internals>/**"],
+    //   "program": "${workspaceFolder}\\dist\\spg.js",
+    //   "outFiles": ["${workspaceFolder}/**/*.js"]
+    // },
     {
       "type": "node",
       "request": "launch",
-      "name": "DegbuMock",
+      "name": "debug gen api",
       "skipFiles": ["<node_internals>/**"],
-      "outFiles": ["${workspaceFolder}/**/*.js"],
-      "runtimeExecutable": "npm", //默认是node,这里改成npm
-      "runtimeArgs": [
-        "run-script", //别名 run
-        "debug" //对应上npm scripts上的debug
-      ],
-      "port": 9771, //调试端口
-      "stopOnEntry": true
-    },
-
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "启动程序",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\dist\\spg.js",
+      // 需要执行的文件
+      "program": "${workspaceFolder}\\dist\\spg-gen.js",
+      // 传递给执行文件的参数
+      "args": ["api"],
+      "env": {
+        "NODE_ENV": "development"
+      },
       "outFiles": ["${workspaceFolder}/**/*.js"]
     }
   ]

@@ -21,7 +21,7 @@ export default {
     dir: "dist",
     format: "cjs",
     banner: "#!/usr/bin/env node",
-    // sourcemap: true,
+    sourcemap: true,
   },
   watch: "src/**",
   plugins: [

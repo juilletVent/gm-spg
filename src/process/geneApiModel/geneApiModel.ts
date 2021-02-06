@@ -13,21 +13,23 @@ export async function getTargetProject(mockConf?: EasyMockConfI) {
   }
   // 根据配置文件提供备选项（.easy-mock.js）
   const optList = mockConf.projects.map((item) => pick(item, ["id", "name"]));
-  const userChoose = await inquirer.prompt({
-    name: "targets",
-    message: "请选择需要生成Api模型的项目",
-    // suffix: '（按下"空格"键选择，按下"A"键选择所有，按下"I"键反选）',
-    validate: (input) => {
-      if (get(input, "length", 0) === 0) {
-        return "请选择需要生成模型的项目";
-      }
-      return true;
-    },
-    type: "checkbox",
-    pageSize: 10,
-    choices: optList,
-  });
-  // const userChoose = { targets: ["eztPlatform"] };
+  const userChoose =
+    process.env.NODE_ENV === "development"
+      ? { targets: ["eztPlatform"] }
+      : await inquirer.prompt({
+          name: "targets",
+          message: "请选择需要生成Api模型的项目",
+          // suffix: '（按下"空格"键选择，按下"A"键选择所有，按下"I"键反选）',
+          validate: (input) => {
+            if (get(input, "length", 0) === 0) {
+              return "请选择需要生成模型的项目";
+            }
+            return true;
+          },
+          type: "checkbox",
+          pageSize: 10,
+          choices: optList,
+        });
 
   return optList.filter((project) => userChoose.targets.includes(project.name));
 }
@@ -49,14 +51,14 @@ export default async function geneApiModel(cover: boolean) {
     // 取得当前项目的EasyMock配置文件
     myInfoLog("Generate process --> 定位EasyMock配置文件");
     const mockConf = getEasyMockConf();
-    myInfoLog("Generate process --> mockConf 已获取");
+    myInfoLog("Generate process --> Mock配置已获取");
     // 询问用户的目标项目是哪一个
     const targetProjects = await getTargetProject(mockConf);
     // 获取Mock模型数据
     myInfoLog("Generate process --> 下载EasyMock项目信息");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const mockOriginalData = await getMockData(mockConf, targetProjects);
-    myInfoLog("Generate process --> 开始分析");
+    myInfoLog("Generate process --> 下载成功，开始分析");
     // 分析数据生成接口描述列表（包含接口参数模型、接口响应模型、接口地址、接口描述）
     const interfaceInfos = analyseInterfaceInfo(mockOriginalData);
     // // 过滤接口，只取Get类型 and List and 固定响应模式的接口
