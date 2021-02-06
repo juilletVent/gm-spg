@@ -21,7 +21,7 @@ export default {
     dir: "dist",
     format: "cjs",
     banner: "#!/usr/bin/env node",
-    sourcemap: true,
+    // sourcemap: true,
   },
   watch: "src/**",
   plugins: [
@@ -47,7 +47,7 @@ export default {
       ],
     }),
     json(),
-    terser(),
+    // terser(),
     progress({
       // clearLine: false, // default: true
     }),
