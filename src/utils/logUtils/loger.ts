@@ -11,13 +11,14 @@ export enum LogLevel {
   DEBUG = 300,
 }
 
+const colorMap = {
+  [LogLevel.ERROR]: "red",
+  [LogLevel.WARN]: "yellow",
+  [LogLevel.INFO]: "blue",
+  [LogLevel.DEBUG]: "white",
+};
+
 export function myLog(level: LogLevel, content: string) {
-  const colorMap = {
-    [LogLevel.ERROR]: "red",
-    [LogLevel.WARN]: "yellow",
-    [LogLevel.INFO]: "blue",
-    [LogLevel.DEBUG]: "white",
-  };
   // eslint-disable-next-line no-console
   console.log(color(colorMap[level], content));
 }
@@ -29,14 +30,20 @@ const hocTester = (fn: Function) => (content: string, isTester?: boolean) => {
 };
 
 export const myErrorLog = hocTester((content: string) =>
-  myLog(LogLevel.ERROR, `[ERROR] ${content}`)
+  myLog(
+    LogLevel.ERROR,
+    `${color(colorMap[LogLevel.ERROR], "[ERROR]")} ${content}`
+  )
 );
 export const myWarnLog = hocTester((content: string) =>
-  myLog(LogLevel.WARN, `[WARN] ${content}`)
+  myLog(LogLevel.WARN, `${color(colorMap[LogLevel.WARN], "[WARN]")} ${content}`)
 );
 export const myInfoLog = hocTester((content: string) =>
-  myLog(LogLevel.INFO, `[INFO] ${content}`)
+  myLog(LogLevel.INFO, `${color(colorMap[LogLevel.INFO], "[INFO]")} ${content}`)
 );
 export const myDebugLog = hocTester((content: string) =>
-  myLog(LogLevel.DEBUG, `[DEBUG] ${content}`)
+  myLog(
+    LogLevel.DEBUG,
+    `${color(colorMap[LogLevel.DEBUG], "[DEBUG]")} ${content}`
+  )
 );

@@ -1,30 +1,13 @@
-import path from "path";
 import inquirer from "inquirer";
 import { get, pick } from "lodash";
-import { getProjectRoot } from "@/utils/tplUtils";
-import { myErrorLog } from "@/utils/logUtils";
-import { EasyMockConf } from "@/types/EasyMockConf";
+import { g, myErrorLog, myInfoLog } from "@/utils/logUtils";
+import { EasyMockConfI } from "@/types/EasyMockConf";
+import { getEasyMockConf, getMockData } from "@/utils/mockUtils";
+import analyseInterfaceInfo from "@/utils/mockUtils/analyseInterfaceInfo";
+import { filterListSchemaInterface } from "@/utils/mockUtils/filterListSchemaInterface";
+import { writeInterface } from "@/utils/mockUtils/writeInterface";
 
-/** 获取项目内的Easymock配置 */
-export function getEasyMockConf(isTest?: boolean) {
-  const projectRoot = getProjectRoot(process.cwd());
-  if (!projectRoot) {
-    myErrorLog("未找到最近的package.json文件，无法定位项目根目录", isTest);
-    return;
-  }
-
-  try {
-    // eslint-disable-next-line global-require,import/no-dynamic-require
-    return require(path.resolve(
-      projectRoot,
-      "./.easy-mock.js"
-    )) as EasyMockConf;
-  } catch (error) {
-    myErrorLog("未找到easy-mock配置文件", isTest);
-  }
-}
-
-export async function getTargetProject(mockConf?: EasyMockConf) {
+export async function getTargetProject(mockConf?: EasyMockConfI) {
   if (!mockConf) {
     return [];
   }
@@ -44,12 +27,13 @@ export async function getTargetProject(mockConf?: EasyMockConf) {
     pageSize: 10,
     choices: optList,
   });
+  // const userChoose = { targets: ["eztPlatform"] };
 
   return optList.filter((project) => userChoose.targets.includes(project.name));
 }
 
 /** 生成Api数据模型 */
-export default async function geneApiModel() {
+export default async function geneApiModel(cover: boolean) {
   // 1、定位当前项目的根路径
   // 2、查找并分析EasyMock配置文件，给出可以生成模型的项目名称，提供选择
   // 3、根据选择项目访问Easymock，获取模型数据
@@ -61,12 +45,27 @@ export default async function geneApiModel() {
   //    5、根据描述信息循环写出接口类型定义文件
   // 5、打印完成信息
 
-  // 取得当前项目的EasyMock配置文件
-  const mockConf = getEasyMockConf();
-  // 询问用户的目标项目是哪一个
-  const targetProjects = await getTargetProject(mockConf);
-  // 获取Mock模型数据
-  // 分析数据生成接口描述列表
-  // 循环写出接口定义文件
-  // 输出完成日志
+  try {
+    // 取得当前项目的EasyMock配置文件
+    myInfoLog("Generate process --> 定位EasyMock配置文件");
+    const mockConf = getEasyMockConf();
+    myInfoLog("Generate process --> mockConf 已获取");
+    // 询问用户的目标项目是哪一个
+    const targetProjects = await getTargetProject(mockConf);
+    // 获取Mock模型数据
+    myInfoLog("Generate process --> 下载EasyMock项目信息");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const mockOriginalData = await getMockData(mockConf, targetProjects);
+    myInfoLog("Generate process --> 开始分析");
+    // 分析数据生成接口描述列表（包含接口参数模型、接口响应模型、接口地址、接口描述）
+    const interfaceInfos = analyseInterfaceInfo(mockOriginalData);
+    // // 过滤接口，只取Get类型 and List and 固定响应模式的接口
+    const targetInterfaceList = filterListSchemaInterface(interfaceInfos);
+    // // 循环写出接口定义文件
+    await writeInterface(targetInterfaceList, cover);
+    // 输出完成日志
+    myInfoLog(`Generate process --> ${g("写出完成！")}`);
+  } catch (error) {
+    myErrorLog(error.message);
+  }
 }

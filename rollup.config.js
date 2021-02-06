@@ -11,11 +11,17 @@ import json from "@rollup/plugin-json";
 import eslint from "@rollup/plugin-eslint";
 
 export default {
-  input: "./src/spg.ts",
+  input: [
+    "./src/spg.ts",
+    "./src/commands/spg-def.ts",
+    "./src/commands/spg-gen.ts",
+    "./src/commands/spg-init.ts",
+  ],
   output: {
     dir: "dist",
     format: "cjs",
     banner: "#!/usr/bin/env node",
+    sourcemap: true,
   },
   watch: "src/**",
   plugins: [
@@ -41,7 +47,7 @@ export default {
       ],
     }),
     json(),
-    // terser(),
+    terser(),
     progress({
       // clearLine: false, // default: true
     }),
