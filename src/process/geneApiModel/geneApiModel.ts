@@ -15,7 +15,7 @@ export async function getTargetProject(mockConf?: EasyMockConfI) {
   const optList = mockConf.projects.map((item) => pick(item, ["id", "name"]));
   const userChoose =
     process.env.NODE_ENV === "development"
-      ? { targets: ["eztPlatform"] }
+      ? { targets: ["contract"] } // eztPlatform
       : await inquirer.prompt({
           name: "targets",
           message: "请选择需要生成Api模型的项目",

@@ -5,15 +5,17 @@ import prettier from "prettier";
 import { get, forIn, camelCase, upperFirst } from "lodash";
 import { InterfaceDescI, ProjectDesc } from "@/types/InterfaceDesc";
 import { ListAttrDesc } from "@/types/ListAttrDesc";
-import { getProjectRoot } from "../tplUtils";
-import { myErrorLog, myInfoLog, myWarnLog } from "../logUtils";
+import { getProjectRoot } from "@/utils/tplUtils";
+import { getCurrentTime } from "@/utils/timeUtils";
+import { myErrorLog, myInfoLog, myWarnLog } from "@/utils/logUtils";
 
 const fsp = fs.promises;
 
 function getInterfaceName(info: InterfaceDescI): string {
-  const namePattern = /\/([a-zA-Z\-\d]+)$/;
-  const name = info.path.match(namePattern)![1];
-  return upperFirst(camelCase(name));
+  const namePattern = /\/([a-zA-Z\-\d]+)\/([a-zA-Z\-\d]+)$/;
+  const name1 = info.path.match(namePattern)![1];
+  const name2 = info.path.match(namePattern)![2];
+  return upperFirst(`${name1}${upperFirst(camelCase(name2))}`);
 }
 
 function getAttrDesc(attrInfo: ListAttrDesc) {
@@ -47,14 +49,22 @@ function getInterfaceContent(
   });
   const interfaceDescStr = get(desc, "desc", "无描述");
 
-  const interfaceContent = `/** ${interfaceDescStr} */
-export interface ${interfaceName}I {${items
+  const interfaceContent = `/** ${interfaceDescStr} 
+  * @uri ${desc.path}
+  * create by gm-spg CLI @ ${getCurrentTime()}
+  */
+  export interface ${interfaceName}I {${items
     .map((item) => getAttrDesc(item))
     .join("")}
-}
+  }
 `;
-  // return interfaceContent;
   return prettier.format(interfaceContent, { semi: true, parser: "babel" });
+  // try {
+  //   return prettier.format(interfaceContent, { semi: true, parser: "babel" });
+  // } catch (error) {
+  //   myWarnLog(`Prettier格式化异常，${desc.path}`, error);
+  //   return interfaceContent;
+  // }
 }
 
 async function writeGroupApi(
@@ -76,7 +86,10 @@ async function writeGroupApi(
         `Generate process --> 接口已存在，跳过：${desc.path} \r\n ${filePath}`
       );
     } catch (error) {
-      myErrorLog(`Generate process --> 接口生成异常，跳过：${desc.path}`);
+      myErrorLog(
+        `Generate process --> 接口生成异常，跳过：${desc.path}`,
+        error
+      );
     }
   });
 }

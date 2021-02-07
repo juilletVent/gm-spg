@@ -20,7 +20,7 @@
       // 需要执行的文件
       "program": "${workspaceFolder}\\dist\\spg-gen.js",
       // 传递给执行文件的参数
-      "args": ["api"],
+      "args": ["api" /* , "--cover" */],
       "env": {
         "NODE_ENV": "development"
       },

@@ -19,5 +19,12 @@ module.exports = {
       // 如果baseUrl为字符串请使用 "'baseUrl'"
       baseUrl: "process.env.REACT_APP_XCJ_GATEWAY",
     },
+    {
+      id: "5c7352055317de21196056f4",
+      name: "contract",
+      urlPreprocessor: (url) => url.replace("/xcj-gateway", ""),
+      // 如果baseUrl为字符串请使用 "'baseUrl'"
+      baseUrl: "process.env.REACT_APP_XCJ_GATEWAY",
+    },
   ],
 };
