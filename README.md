@@ -10,12 +10,12 @@ Fast init for SearchPage in everywhere.
 
 1. 创建默认 SearchPage 默认模板
 
-   ```shell
-   spg gen def [moduleName] [version]
-   # 在执行目录下创建一个名为ContractManage的列表模块，使用的模板版本号为 v1
-   # 将在命令运行目录下创建ContractManage文件夹，并写出相关文件
-   spg gen def ContractManage v1
-   ```
+    ```shell
+    spg gen def [moduleName] [version]
+    # 在执行目录下创建一个名为ContractManage的列表模块，使用的模板版本号为 v1
+    # 将在命令运行目录下创建ContractManage文件夹，并写出相关文件
+    spg gen def ContractManage v1
+    ```
 
 2. 创建列表接口的 TS 声明文件
 
@@ -36,14 +36,17 @@ Fast init for SearchPage in everywhere.
    spg gen status
    ```
 
-帮助快速创建
-
 ## Todo
 
-[ x ] 生成基础模板
-[ x ] 生成接口模型声明
+- [ ] 模板抽离
+- [x] 生成基础模板
+- [x] 生成接口模型声明
 
 ## Question
 
 1. 生成接口声明文件是文件名重名问题
 2. 模板优化、模版与项目抽离
+
+## Author
+
+和风柒月 @ 11/02/2021 01:26
