@@ -11,11 +11,15 @@ export default async function getMcokData(
       ? `${mockConf.host}api/mock/by_projects`
       : `${mockConf.host}/api/mock/by_projects`;
   try {
-    const { data } = await axios.get(api, {
-      params: {
-        project_ids: targetProjects.map((item) => item.id).join(","),
-      },
-    });
+    // const { data } = await axios.get(api, {
+    //   params: {
+    //     project_ids: targetProjects.map((item) => item.id).join(","),
+    //   },
+    // });
+    const { data } = await axios.get(
+      "http://localhost:8080/ContractMock.json",
+      {}
+    );
     return data.data as EasyMockServerDataI;
   } catch (error) {
     throw new Error("Mock数据获取失败！");

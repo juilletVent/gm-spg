@@ -15,12 +15,26 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "debug gen api",
+      "name": "debugGenApi",
       "skipFiles": ["<node_internals>/**"],
       // 需要执行的文件
       "program": "${workspaceFolder}\\dist\\spg-gen.js",
       // 传递给执行文件的参数
       "args": ["api" /* , "--cover" */],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "debugGenApi-MACOS",
+      "skipFiles": ["<node_internals>/**"],
+      // 需要执行的文件
+      "program": "${workspaceFolder}/dist/spg-gen.js",
+      // 传递给执行文件的参数
+      "args": ["api", "--cover"],
       "env": {
         "NODE_ENV": "development"
       },

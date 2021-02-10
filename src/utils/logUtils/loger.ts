@@ -32,44 +32,34 @@ export function myLog(level: LogLevel, content: string, error?: Error) {
       fsx.appendFileSync(
         logFilePath,
         `
-  [Error] [${getCurrentTime()}] ${content}
-          message： ${error.message}
-          stack:    ${error.stack}
+[Error] [${getCurrentTime()}] ${content}
+
+Message： ${error.message}
   `
       );
     }
   }
 }
 
-const hocTester = (fn: Function) => (content: string, isTester?: boolean) => {
-  if (!isTester) {
-    fn(content);
-  }
-};
-
-export const myErrorLog = hocTester((content: string, error?: Error) =>
+export const myErrorLog = (content: string, error?: Error) =>
   myLog(
     LogLevel.ERROR,
     `${color(colorMap[LogLevel.ERROR], "[ERROR]")} ${content}`,
     error
-  )
-);
-export const myWarnLog = hocTester((content: string, error?: Error) =>
+  );
+export const myWarnLog = (content: string, error?: Error) =>
   myLog(
     LogLevel.WARN,
     `${color(colorMap[LogLevel.WARN], "[WARN] ")} ${content}`,
     error
-  )
-);
-export const myInfoLog = hocTester((content: string) =>
+  );
+export const myInfoLog = (content: string) =>
   myLog(
     LogLevel.INFO,
     `${color(colorMap[LogLevel.INFO], "[INFO] ")} ${content}`
-  )
-);
-export const myDebugLog = hocTester((content: string) =>
+  );
+export const myDebugLog = (content: string) =>
   myLog(
     LogLevel.DEBUG,
     `${color(colorMap[LogLevel.DEBUG], "[DEBUG]")} ${content}`
-  )
-);
+  );

@@ -12,10 +12,14 @@ import { myErrorLog, myInfoLog, myWarnLog } from "@/utils/logUtils";
 const fsp = fs.promises;
 
 function getInterfaceName(info: InterfaceDescI): string {
-  const namePattern = /\/([a-zA-Z\-\d]+)\/([a-zA-Z\-\d]+)$/;
-  const name1 = info.path.match(namePattern)![1];
-  const name2 = info.path.match(namePattern)![2];
-  return upperFirst(`${name1}${upperFirst(camelCase(name2))}`);
+  try {
+    const namePattern = /\/([a-zA-Z\-\d]+)\/([a-zA-Z\-\d]+)$/;
+    const name1 = info.path.match(namePattern)![1];
+    const name2 = info.path.match(namePattern)![2];
+    return upperFirst(`${camelCase(name1)}${upperFirst(camelCase(name2))}`);
+  } catch (error) {
+    throw new Error("接口地址不符合一般匹配规则（字母、数字、短横线）");
+  }
 }
 
 function getAttrDesc(attrInfo: ListAttrDesc) {
@@ -27,9 +31,72 @@ function getAttrDesc(attrInfo: ListAttrDesc) {
     type = "number | string";
   }
 
+  if (type === "array") {
+    return `
+    /** ${attrInfo.description} */
+    ${attrInfo.key}: Array<${upperFirst(camelCase(attrInfo.key))}I>;`;
+  }
+
+  if (type === "object") {
+    return `
+  /** ${attrInfo.description} */
+    ${attrInfo.key}: ${upperFirst(camelCase(attrInfo.key))}I;`;
+  }
+
   return `
   /** ${attrInfo.description} */
     ${attrInfo.key}: ${type};`;
+}
+
+function getPremiseInterface(
+  attrInfo: ListAttrDesc,
+  premiseInterface: string[]
+) {
+  const interfaceName = `${upperFirst(camelCase(attrInfo.key))}I`;
+  const mapProps =
+    attrInfo.type === "array"
+      ? attrInfo.items!.properties!
+      : attrInfo.properties!;
+  const mapArray: ListAttrDesc[] = [];
+  forIn(mapProps, (val, key) => {
+    mapArray.push({
+      ...val,
+      key,
+    });
+  });
+  premiseInterface.push(`
+  /** ${attrInfo.description} */
+  export interface ${interfaceName} {
+    ${mapArray
+      .map((item) => {
+        let { type } = item;
+        if (
+          ["integer", "long", "number"].includes(type) ||
+          attrInfo.format === "date-time"
+        ) {
+          type = "number | string";
+        }
+        if (item.type === "object" || item.type === "array") {
+          getPremiseInterface(item, premiseInterface);
+        }
+
+        if (type === "array") {
+          return `/** ${attrInfo.description} */
+        ${attrInfo.key}: Array<${upperFirst(camelCase(attrInfo.key))}I>;`;
+        }
+
+        if (type === "object") {
+          return `/** ${attrInfo.description} */
+        ${attrInfo.key}: ${upperFirst(camelCase(attrInfo.key))}I;`;
+        }
+
+        return `/** ${item.description} */
+        ${item.key}: ${type};
+        `;
+      })
+      .join("")}
+  }
+  `);
 }
 
 function getInterfaceContent(
@@ -48,23 +115,29 @@ function getInterfaceContent(
     });
   });
   const interfaceDescStr = get(desc, "desc", "无描述");
-
-  const interfaceContent = `/** ${interfaceDescStr} 
+  const premiseInterface: string[] = [];
+  let interfaceContent = `/** ${interfaceDescStr} 
   * @uri ${desc.path}
   * create by gm-spg CLI @ ${getCurrentTime()}
   */
   export interface ${interfaceName}I {${items
-    .map((item) => getAttrDesc(item))
+    .map((item) => {
+      if (item.type === "array" || item.type === "object") {
+        getPremiseInterface(item, premiseInterface);
+      }
+      return getAttrDesc(item);
+    })
     .join("")}
   }
 `;
-  return prettier.format(interfaceContent, { semi: true, parser: "babel" });
-  // try {
-  //   return prettier.format(interfaceContent, { semi: true, parser: "babel" });
-  // } catch (error) {
-  //   myWarnLog(`Prettier格式化异常，${desc.path}`, error);
-  //   return interfaceContent;
-  // }
+
+  interfaceContent = `${premiseInterface.join("")}
+${interfaceContent}`;
+  try {
+    return prettier.format(interfaceContent, { semi: true, parser: "babel" });
+  } catch (error) {
+    throw new Error(`Prettier格式化异常，${error.message}`);
+  }
 }
 
 async function writeGroupApi(
