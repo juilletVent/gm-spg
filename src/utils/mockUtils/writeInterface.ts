@@ -13,12 +13,16 @@ const fsp = fs.promises;
 
 function getInterfaceName(info: InterfaceDescI): string {
   try {
-    const namePattern = /\/([a-zA-Z\-\d]+)\/([a-zA-Z\-\d]+)$/;
-    const name1 = info.path.match(namePattern)![1];
-    const name2 = info.path.match(namePattern)![2];
+    const namePattern = /\/([a-zA-Z\-\d{}]+)\/([a-zA-Z\-\d{}]+)$/;
+    const name1 = info.path
+      .match(namePattern)![1]
+      .replace(/{([a-zA-Z\d-])}/, "$1");
+    const name2 = info.path
+      .match(namePattern)![2]
+      .replace(/{([a-zA-Z\d-])}/, "$1");
     return upperFirst(`${camelCase(name1)}${upperFirst(camelCase(name2))}`);
   } catch (error) {
-    throw new Error("接口地址不符合一般匹配规则（字母、数字、短横线）");
+    throw new Error("接口地址不符合一般匹配规则（字母、数字、短横线、花括号）");
   }
 }
 
@@ -48,8 +52,11 @@ function getAttrDesc(attrInfo: ListAttrDesc) {
     ${attrInfo.key}: ${type};`;
 }
 
+/** 递归生成节点下所有的子模型 */
 function getPremiseInterface(
+  // 当前节点信息
   attrInfo: ListAttrDesc,
+  // 临时存储
   premiseInterface: string[]
 ) {
   const interfaceName = `${upperFirst(camelCase(attrInfo.key))}I`;
@@ -69,39 +76,21 @@ function getPremiseInterface(
   export interface ${interfaceName} {
     ${mapArray
       .map((item) => {
-        let { type } = item;
-        if (
-          ["integer", "long", "number"].includes(type) ||
-          attrInfo.format === "date-time"
-        ) {
-          type = "number | string";
-        }
         if (item.type === "object" || item.type === "array") {
           getPremiseInterface(item, premiseInterface);
         }
-
-        if (type === "array") {
-          return `/** ${attrInfo.description} */
-        ${attrInfo.key}: Array<${upperFirst(camelCase(attrInfo.key))}I>;`;
-        }
-
-        if (type === "object") {
-          return `/** ${attrInfo.description} */
-        ${attrInfo.key}: ${upperFirst(camelCase(attrInfo.key))}I;`;
-        }
-
-        return `/** ${item.description} */
-        ${item.key}: ${type};
-        `;
+        return getAttrDesc(item);
       })
       .join("")}
   }
   `);
 }
 
+/** 生成单个接口的所有模型定义内容 */
 function getInterfaceContent(
   interfaceName: string,
-  desc: InterfaceDescI
+  desc: InterfaceDescI,
+  projectId: string
 ): string {
   const properties = get(
     desc,
@@ -118,10 +107,12 @@ function getInterfaceContent(
   const premiseInterface: string[] = [];
   let interfaceContent = `/** ${interfaceDescStr} 
   * @uri ${desc.path}
+  * @projectId ${projectId}
   * create by gm-spg CLI @ ${getCurrentTime()}
   */
   export interface ${interfaceName}I {${items
     .map((item) => {
+      // 如果发现是嵌套结构，则调用子处理生成所有的子级结构暂存在premiseInterface中，后续进行前置插入
       if (item.type === "array" || item.type === "object") {
         getPremiseInterface(item, premiseInterface);
       }
@@ -131,6 +122,7 @@ function getInterfaceContent(
   }
 `;
 
+  // 拼接所需的前置子结构定义
   interfaceContent = `${premiseInterface.join("")}
 ${interfaceContent}`;
   try {
@@ -140,10 +132,12 @@ ${interfaceContent}`;
   }
 }
 
+/** 单组模型写出 */
 async function writeGroupApi(
   typesDirPath: string,
   interfaceDescs: InterfaceDescI[],
-  cover: boolean
+  cover: boolean,
+  projectId: string
 ) {
   interfaceDescs.map(async (desc) => {
     try {
@@ -152,7 +146,10 @@ async function writeGroupApi(
       // 如果是覆盖模式或文件不存在，则写出
       if (cover || !fs.existsSync(filePath)) {
         myInfoLog(`Generate process --> ${filePath}`);
-        await fsp.writeFile(filePath, getInterfaceContent(interfaceName, desc));
+        await fsp.writeFile(
+          filePath,
+          getInterfaceContent(interfaceName, desc, projectId)
+        );
         return;
       }
       myWarnLog(
@@ -183,7 +180,7 @@ export async function writeInterface(
     }
     const projectIds = Object.keys(projectsDesc);
     const allTask = projectIds.map((projectId) =>
-      writeGroupApi(typesDir, projectsDesc[projectId], cover)
+      writeGroupApi(typesDir, projectsDesc[projectId], cover, projectId)
     );
     await Promise.all(allTask);
   } catch (error) {
