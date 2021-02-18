@@ -7,7 +7,7 @@
     "build": "rollup -c",
     "test": "jest --watch"
   },
-  "name": "search-page-generator",
+  "name": "@gmsoft/search-page-generator",
   "version": "1.0.0",
   "description": "自动生成SearchPage调用",
   "main": "./dist/spg.js",
@@ -71,5 +71,8 @@
     "lodash": "^4.17.20",
     "prettier": "^2.2.1",
     "moment": "^2.29.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

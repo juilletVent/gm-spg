@@ -56,12 +56,11 @@ export default async function geneApiModel(cover: boolean) {
     const targetProjects = await getTargetProject(mockConf);
     // 获取Mock模型数据
     myInfoLog("Generate process --> 下载EasyMock项目信息");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const mockOriginalData = await getMockData(mockConf, targetProjects);
     myInfoLog("Generate process --> 下载成功，开始分析");
     // 分析数据生成接口描述列表（包含接口参数模型、接口响应模型、接口地址、接口描述）
     const interfaceInfos = analyseInterfaceInfo(mockOriginalData);
-    // // 过滤接口，只取Get类型 and List and 固定响应模式的接口
+    // 过滤接口，只取Get类型 and List and 固定响应模式的接口
     const targetInterfaceList = filterListSchemaInterface(interfaceInfos);
     // // 循环写出接口定义文件
     await writeInterface(targetInterfaceList, cover);
