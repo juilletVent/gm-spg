@@ -47,7 +47,7 @@ export default {
       ],
     }),
     json(),
-    // terser(),
+    terser(),
     progress({
       // clearLine: false, // default: true
     }),
