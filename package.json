@@ -3,9 +3,9 @@
     "spg": "./dist/spg.js"
   },
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
-    "test": "jest --watch"
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "test": "cross-env NODE_ENV=development jest --watch"
   },
   "name": "@gmsoft/search-page-generator",
   "version": "1.0.0",
@@ -69,8 +69,8 @@
     "fs-extra": "^9.1.0",
     "inquirer": "^7.3.3",
     "lodash": "^4.17.20",
-    "prettier": "^2.2.1",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "prettier": "^2.2.1"
   },
   "publishConfig": {
     "access": "public"
