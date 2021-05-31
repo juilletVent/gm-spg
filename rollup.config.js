@@ -24,6 +24,7 @@ export default {
     format: "cjs",
     banner: "#!/usr/bin/env node",
     sourcemap: isDev,
+
   },
   watch: "src/**",
   plugins: [

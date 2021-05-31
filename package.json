@@ -69,8 +69,12 @@
     "fs-extra": "^9.1.0",
     "inquirer": "^7.3.3",
     "lodash": "^4.17.20",
-    "moment": "^2.29.1",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "moment": "^2.29.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gmsoft-happyCoding/gm-spg"
   },
   "publishConfig": {
     "access": "public"
