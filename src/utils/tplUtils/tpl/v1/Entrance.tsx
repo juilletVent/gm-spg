@@ -25,7 +25,7 @@ const getDataApi: GetDataApi = async (filters: Filters, pagination: PaginationI)
   } catch (error) {
     notification.error({
       message: '错误',
-      description: `获取数据失败:${error.message}`,
+      description: `获取数据失败:${(error as Error).message}`,
     });
     return { data: [], total: 0 };
   }

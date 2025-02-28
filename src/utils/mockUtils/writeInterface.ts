@@ -128,7 +128,7 @@ ${interfaceContent}`;
   try {
     return prettier.format(interfaceContent, { semi: true, parser: "babel" });
   } catch (error) {
-    throw new Error(`Prettier格式化异常，${error.message}`);
+    throw new Error(`Prettier格式化异常，${(error as Error).message}`);
   }
 }
 
@@ -158,7 +158,7 @@ async function writeGroupApi(
     } catch (error) {
       myErrorLog(
         `Generate process --> 接口生成异常，跳过：${desc.path}`,
-        error
+        error as Error
       );
     }
   });
@@ -184,6 +184,6 @@ export async function writeInterface(
     );
     await Promise.all(allTask);
   } catch (error) {
-    myErrorLog(error.message);
+    myErrorLog((error as Error).message);
   }
 }

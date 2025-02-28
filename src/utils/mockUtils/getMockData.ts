@@ -1,6 +1,6 @@
+import axios from "axios";
 import { EasyMockConfI } from "@/types/EasyMockConf";
 import { EasyMockServerDataI } from "@/types/EasyMockServerData";
-import axios from "axios";
 
 export default async function getMcokData(
   mockConf: EasyMockConfI,

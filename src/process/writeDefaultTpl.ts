@@ -67,6 +67,6 @@ export default async function writeDefaultTpl(
     // eslint-disable-next-line no-console
     console.log("Write file -> ", color("green", "文件写出完成！"));
   } catch (error) {
-    myErrorLog(error.message);
+    myErrorLog((error as Error).message);
   }
 }

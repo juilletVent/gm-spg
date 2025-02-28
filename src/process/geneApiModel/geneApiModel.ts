@@ -67,6 +67,6 @@ export default async function geneApiModel(cover: boolean) {
     // 输出完成日志
     myInfoLog(`Generate process --> ${g("写出完成！")}`);
   } catch (error) {
-    myErrorLog(error.message);
+    myErrorLog((error as Error).message);
   }
 }

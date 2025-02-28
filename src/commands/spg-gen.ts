@@ -1,8 +1,8 @@
 import { program } from "commander";
 import { GenType } from "@/types/GenType.enum";
-import { geneStatusComponent } from "@/process/geneStatusComponent";
 import { myErrorLog, b } from "@/utils/logUtils";
 import { geneApiModel } from "@/process/geneApiModel";
+import { geneStatusComponent } from "@/process/geneStatusComponent";
 
 program
   .usage(
