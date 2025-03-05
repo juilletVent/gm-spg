@@ -10,12 +10,12 @@ Fast init for SearchPage in everywhere.
 
 1. 创建默认 SearchPage 默认模板
 
-    ```shell
-    spg gen def [moduleName] [version]
-    # 在执行目录下创建一个名为ContractManage的列表模块，使用的模板版本号为 v1
-    # 将在命令运行目录下创建ContractManage文件夹，并写出相关文件
-    spg gen def ContractManage v1
-    ```
+   ```shell
+   spg gen def [moduleName] [version]
+   # 在执行目录下创建一个名为ContractManage的列表模块，使用的模板版本号为 v1
+   # 将在命令运行目录下创建ContractManage文件夹，并写出相关文件
+   spg gen def ContractManage v1
+   ```
 
 2. 创建列表接口的 TS 声明文件
 
@@ -41,6 +41,10 @@ Fast init for SearchPage in everywhere.
 - [ ] 模板抽离
 - [x] 生成基础模板
 - [x] 生成接口模型声明
+- [ ] 生成完整的组合模板模块
+  - [ ] List 模块
+  - [ ] View 模块
+  - [ ] Edit 模块
 
 ## Question
 

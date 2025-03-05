@@ -31,7 +31,7 @@ const getDataApi: GetDataApi = async (filters: Filters, pagination: PaginationI)
   }
 };
 
-function ###moduleName###(props: Props) {
+function SpgModulaName(props: Props) {
   const SearchPage = useMemo(
     () =>
       creatSearchPage({
@@ -45,4 +45,4 @@ function ###moduleName###(props: Props) {
   return <SearchPage>{Content}</SearchPage>;
 }
 
-export default ###moduleName###;
+export default SpgModulaName;

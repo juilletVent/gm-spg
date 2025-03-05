@@ -1,13 +1,16 @@
-import React, { useMemo } from 'react';
+import { notification } from '@gmsoft/ui';
+import styled from 'styled-components';
 import { clone } from 'lodash';
+import React, { useMemo } from 'react';
 import creatSearchPage, { Filters, GetDataApi, PaginationI } from 'search-page';
 // TODO 修改API引入
-import { api as API } from '@/api';
-import { notification } from '@gmsoft/ui';
-import FilterForm from './FilterForm';
+// import { api as API } from "@/api";
 import Content from './Content';
+import FilterForm from './FilterForm';
 
-export interface Props {}
+const ListLayout = styled.div`
+  padding: 16px;
+`;
 
 const getDataApi: GetDataApi = async (filters: Filters, pagination: PaginationI) => {
   const filterPayload = clone(filters);
@@ -17,11 +20,11 @@ const getDataApi: GetDataApi = async (filters: Filters, pagination: PaginationI)
 
   try {
     // TODO 修改调用API
-    const { data } = await API.xxxxxxxx({
-      params: filterPayload,
-    });
+    // const { data } = await API.xxxxxxxx({
+    //   params: filterPayload,
+    // });
     // TODO 确认接口返回数据结构
-    return { data: data.data, total: data.meta.totalCount };
+    return { data: [{}], total: 1 };
   } catch (error) {
     notification.error({
       message: '错误',
@@ -31,7 +34,7 @@ const getDataApi: GetDataApi = async (filters: Filters, pagination: PaginationI)
   }
 };
 
-function SpgModulaName(props: Props) {
+function List() {
   const SearchPage = useMemo(
     () =>
       creatSearchPage({
@@ -42,7 +45,11 @@ function SpgModulaName(props: Props) {
     []
   );
 
-  return <SearchPage>{Content}</SearchPage>;
+  return (
+    <ListLayout>
+      <SearchPage>{Content}</SearchPage>
+    </ListLayout>
+  );
 }
 
-export default SpgModulaName;
+export default List;
