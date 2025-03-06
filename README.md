@@ -41,10 +41,10 @@ Fast init for SearchPage in everywhere.
 - [ ] 模板抽离
 - [x] 生成基础模板
 - [x] 生成接口模型声明
-- [ ] 生成完整的组合模板模块
-  - [ ] List 模块
-  - [ ] View 模块
-  - [ ] Edit 模块
+- [x] 生成完整的组合模板模块
+  - [x] List 模块
+  - [x] View 模块
+  - [x] Edit 模块
 
 ## Question
 
