@@ -24,7 +24,25 @@ const getDataApi: GetDataApi = async (filters: Filters, pagination: PaginationI)
     //   params: filterPayload,
     // });
     // TODO 确认接口返回数据结构
-    return { data: [{}], total: 1 };
+    return {
+      data: [
+        {
+          id: '1',
+          data_key_1: 'data_key_1',
+          data_key_2: 'data_key_2',
+          data_key_3: 'data_key_3',
+          state: 0,
+        },
+        {
+          id: '2',
+          data_key_1: 'data_key_1',
+          data_key_2: 'data_key_2',
+          data_key_3: 'data_key_3',
+          state: 1,
+        },
+      ],
+      total: 10,
+    };
   } catch (error) {
     notification.error({
       message: '错误',

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import EditForm from './EditForm';
 import { EditLayout } from './style';
-import { convertToField, usePageData } from './dataHandle';
+import { convertToField, usePageData, useSave } from './dataHandle';
 import { BtnGroup, FooterLayout, PageHeader, Title } from '../View/style';
 
 function Edit() {
@@ -11,49 +11,49 @@ function Edit() {
 
   const [formData, setFormData] = useState();
 
-  const { pageData, loading } = usePageData();
+  const { pageData, loading: initLoading } = usePageData();
 
   const formRef = useRef<any>(null);
 
-  const onSave = useCallback(() => {
+  const { loading: saveLoading, onSave } = useSave();
+
+  const onSaveClick = useCallback(() => {
     if (formRef.current) {
       formRef.current.validateFieldsAndScroll((err, values) => {
         if (err) {
           return;
         }
-        console.log('values: ', values);
+        onSave(values, goBack);
       });
     }
-  }, []);
+  }, [goBack, onSave]);
 
   useEffect(() => {
-    console.log('loading: ', loading);
-    console.log('pageData: ', pageData);
-    if (!loading && pageData) {
-      setFormData(convertToField(pageData, ['key-input', 'key-option']));
+    if (!initLoading && pageData) {
+      setFormData(convertToField(pageData, ['group1-key-input', 'group1-key-option']));
     }
-  }, [loading, pageData]);
+  }, [initLoading, pageData]);
 
   return (
-    <Spin spinning={loading} tip="加载中...">
+    <Spin spinning={initLoading} tip="加载中...">
       <EditLayout>
         <PageHeader>
-          <Title>详细页面页头标题</Title>
+          <Title>编辑页面页头标题</Title>
           <BtnGroup>
-            <Button icon="rollback" onClick={goBack}>
+            <Button loading={saveLoading} icon="rollback" onClick={goBack}>
               返回
             </Button>
-            <Button type="primary" icon="save" onClick={onSave}>
+            <Button loading={saveLoading} type="primary" icon="save" onClick={onSaveClick}>
               保存
             </Button>
           </BtnGroup>
         </PageHeader>
         <EditForm formData={formData} onChange={setFormData} ref={formRef} />
         <FooterLayout>
-          <Button icon="rollback" onClick={goBack}>
+          <Button loading={saveLoading} icon="rollback" onClick={goBack}>
             返回
           </Button>
-          <Button type="primary" icon="save" onClick={onSave}>
+          <Button loading={saveLoading} type="primary" icon="save" onClick={onSaveClick}>
             保存
           </Button>
         </FooterLayout>

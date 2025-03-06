@@ -35,7 +35,7 @@ export const InfoGroup = styled.div`
 export const GroupTitle = styled.h3``;
 export const GroupContent = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 10px;
 `;
 export const InfoItem = styled.div`
