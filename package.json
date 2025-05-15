@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c",
-    "test": "cross-env NODE_ENV=development jest --watch"
+    "test": "cross-env NODE_ENV=development jest --watch",
+    "prepub": "yarn build",
+    "pub": "npm publish"
   },
   "name": "@gmsoft/search-page-generator",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "自动生成SearchPage调用",
   "main": "./dist/spg.js",
   "author": "JulyWind",
