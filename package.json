@@ -10,7 +10,7 @@
     "pub": "npm publish"
   },
   "name": "@gmsoft/search-page-generator",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "自动生成SearchPage调用",
   "main": "./dist/spg.js",
   "author": "JulyWind",
@@ -39,7 +39,7 @@
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.168",
-    "@types/node": "^22.13.9",
+    "@types/node": "^24.5.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
     "babel-jest": "^26.6.3",
