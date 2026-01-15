@@ -64,9 +64,7 @@ export default async function writeDefaultTpl(
     // 递归拷贝模板文件夹
     copyDirectorySync(tplDir, targetDir);
 
-    throw new Error("模拟错误测试");
-
-    // console.log("[DONE]", color("green", `模块 ${targetDir} 创建成功`));
+    console.log("[DONE]", color("green", `模块 ${targetDir} 创建成功`));
   } catch (error) {
     myErrorLog((error as Error).message);
   }

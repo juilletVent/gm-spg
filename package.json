@@ -10,7 +10,7 @@
     "pub": "npm publish"
   },
   "name": "@gmsoft/search-page-generator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "自动生成SearchPage调用",
   "main": "./dist/spg.js",
   "author": "JulyWind",
